@@ -26,6 +26,13 @@ def copy_manifest_and_blobs(models_dir, model_name, tag_name, target_path):
     # Copy manifest file
     shutil.copy2(manifest_path, os.path.join(target_manifests_dir, tag_name))
     
+    # Copy config file
+    config_digest = manifest['config']['digest'].replace(':', '-')
+    config_path = os.path.join(blobs_dir, config_digest)
+    if not os.path.exists(config_path):
+        raise FileNotFoundError(f"Config file not found: {config_path}")
+    shutil.copy2(config_path, os.path.join(target_blobs_dir, config_digest))
+    
     # Copy blob files
     for layer in manifest['layers']:
         digest = layer['digest'].replace(':', '-')

@@ -26,5 +26,9 @@
 2. docker build打包
 ```dockerfile
 FROM ollama/ollama
-COPY ./qwen-exported /root/.ollama/models
+ARG MODEL_DIR=./codeqwen-7b
+COPY $MODEL_DIR /root/.ollama/models
+EXPOSE 11434
 ```
+
+`docker build --build-arg MODEL_DIR=./exporterd-model -t llm-ollama:7b-qint4 .`
